@@ -1,20 +1,29 @@
-/*public struct ApplePayCode {
-    static var MISS_MERCHANT_ID: return "missing_merchant_id"
-    static var MISS_AMOUNT: return "missing_amount"
-    static var MISS_URL: return "missing_url"
-    static var MISS_BODY: return "missing_body"
-    static var MISS_SESSION_IN: return "missing_session_in"
+public struct ApplePayCode {
+    static let MISS_MERCHANT_ID = "missing_merchant_id"
+    static let MISS_AMOUNT = "missing_amount"
+    static let MISS_URL = "missing_url"
+    static let MISS_BODY = "missing_body"
+    static let MISS_SESSION_IN = "missing_session_in"
+
+    static let INVALID_AMOUNT = "invalid_amount"
+    static let INVALID_COUNTRY_CODE = "invalid_country_code"
+    static let INVALID_CURRENCY_CODE = "invalid_currency_code"
+    static let INVALID_NETWORKS = "invalid_networks"
+
+    static let EMPTY_SUPPORTED_NETWORKS = "empty_supported_networks"
+    static let EMPTY_ITEMS = "empty_items"
+
+    static let APPLEPAY_NOT_AVAILABLE = "applepay_not_available"
+    static let PROBLEM_OPENING_PAYMENTSHEET = "problem_opening_paymentsheet"
     
-    /*case .invalidAmount: return "invalid_amount"
-    case .invalidCountryCode: return "invalid_country_code"
-    case .invalidCurrencyCode: return "invalid_currency_code"
-    case .emptySupportedNetworks: return "empty_supported_networks"
-    case .emptyItems: return "empty_items"
-    case .noValidNetworks: return "no_valid_networks"
-     */
+    static let PAYMENT_CANCELED = "payment_canceled"
+    static let PAYMENT_FAILED = "payment_failed"
+    static let APPLEPAY_ERROR = "applepay_error"
+
+    static let UKNOWN_ERROR = "uknown_error"
 
 }
- */
+
 public enum ApplePayValidationError: Error {
     case missingMerchantId
     case missingAmount
@@ -27,23 +36,24 @@ public enum ApplePayValidationError: Error {
     case missingURL
     case missingBody
     case missinSesionIn
-    
+
     var code: String {
         switch self {
-        case .missingMerchantId: return "missing_merchant_id"
-        case .missingAmount: return "missing_amount"
-        case .invalidAmount: return "invalid_amount"
-        case .invalidCountryCode: return "invalid_country_code"
-        case .invalidCurrencyCode: return "invalid_currency_code"
-        case .emptySupportedNetworks: return "empty_supported_networks"
-        case .emptyItems: return "empty_items"
-        case .noValidNetworks: return "no_valid_networks"
-        case .missingURL: return "missing_url"
-        case .missingBody: return "missing_body"
-        case .missinSesionIn: return "missing_session_in"
+        case .missingMerchantId: return ApplePayCode.MISS_MERCHANT_ID
+        case .missingAmount: return ApplePayCode.MISS_AMOUNT
+        case .missingURL: return ApplePayCode.MISS_URL
+        case .missingBody: return ApplePayCode.MISS_BODY
+        case .missinSesionIn: return ApplePayCode.MISS_SESSION_IN
+
+        case .invalidAmount: return ApplePayCode.INVALID_AMOUNT
+        case .invalidCountryCode: return ApplePayCode.INVALID_COUNTRY_CODE
+        case .invalidCurrencyCode: return ApplePayCode.INVALID_CURRENCY_CODE
+        case .emptySupportedNetworks: return ApplePayCode.INVALID_NETWORKS
+        case .emptyItems: return ApplePayCode.EMPTY_ITEMS
+        case .noValidNetworks: return ApplePayCode.EMPTY_SUPPORTED_NETWORKS
         }
     }
-    
+
     var message: String {
         switch self {
         case .missingMerchantId:
@@ -55,7 +65,8 @@ public enum ApplePayValidationError: Error {
         case .invalidCountryCode:
             return "countryCode must be a valid ISO 3166 code (ej: 'US', 'MX')."
         case .invalidCurrencyCode:
-            return "currencyCode must be a valid ISO 4217 currency code (ej: 'USD', 'MXN')."
+            return
+                "currencyCode must be a valid ISO 4217 currency code (ej: 'USD', 'MXN')."
         case .emptySupportedNetworks:
             return "supportedNetworks must not be empty."
         case .emptyItems:
@@ -75,16 +86,16 @@ public enum ApplePayValidationError: Error {
 public enum ApplePayProcessError: Error {
     case problemOpeningPaymentSheet
     case unknown
-    
-    var code : String {
+
+    var code: String {
         switch self {
         case .problemOpeningPaymentSheet:
-            return "problem_opening_paymentsheet"
+            return ApplePayCode.PROBLEM_OPENING_PAYMENTSHEET
         case .unknown:
-            return "uknown_error"
+            return ApplePayCode.UKNOWN_ERROR
         }
     }
-    
+
     var message: String {
         switch self {
         case .problemOpeningPaymentSheet:
@@ -95,14 +106,14 @@ public enum ApplePayProcessError: Error {
     }
 }
 
-
 public enum NetworkError: Error {
     case invalidURL
     case requestFailed(Error)
     case invalidResponse
     case serializationError(Error)
     case serverError(String)
-    
+    case invalidJSONResponse(String)
+
     var messagge: String {
         switch self {
         case .invalidURL:
@@ -115,7 +126,9 @@ public enum NetworkError: Error {
             return "Serialization error: \(error.localizedDescription)"
         case .serverError(let error):
             return error
-            
+        case .invalidJSONResponse(let error):
+            return "Invalid JSON response: \(error)"
+
         }
     }
 }

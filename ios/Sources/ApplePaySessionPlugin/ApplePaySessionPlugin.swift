@@ -24,7 +24,7 @@ public class ApplePaySessionPlugin: CAPPlugin, CAPBridgedPlugin {
         
         do {
             let request = try validator.validateAndCreateRequest(from: call)
-            print("[ApplePay Session] Request correct; initiating Apple Pay session")
+            print("[ApplePay Session] Initiating Apple Pay session")
             implementation.getSession(request: request, delegate: self)
            } catch let error as ApplePayValidationError {
                call.reject(error.message, error.code, nil)
@@ -33,7 +33,7 @@ public class ApplePaySessionPlugin: CAPPlugin, CAPBridgedPlugin {
                call.reject(error.message, error.code, nil)
                currentCall = nil
            } catch {
-               call.reject("An error ocurred while validating parameters", "uknown_error", nil)
+               call.reject("An error ocurred while validating parameters", ApplePayCode.UKNOWN_ERROR, nil)
                currentCall = nil
            }
     }
@@ -54,7 +54,7 @@ public class ApplePaySessionPlugin: CAPPlugin, CAPBridgedPlugin {
                call.reject(error.message, error.code, nil)
                currentCall = nil
            } catch {
-               call.reject("An error ocurred while validating parameters", "uknown_error", nil)
+               call.reject("An error ocurred while validating parameters", ApplePayCode.UKNOWN_ERROR, nil)
                currentCall = nil
            }
     }
@@ -92,7 +92,7 @@ extension ApplePaySessionPlugin: ApplePayManagerDelegate {
     }
     
     public func applePayDidPayError(error: String) {
-        self.currentCall?.reject(error, "applepay_error")
+        self.currentCall?.reject(error, ApplePayCode.APPLEPAY_ERROR)
         self.currentCall = nil
     }
 }

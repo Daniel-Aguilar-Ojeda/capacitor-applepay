@@ -102,10 +102,7 @@ public class ApplePaySessionValidator {
         var summaryItems: [PKPaymentSummaryItem] = []
         
         for item in paymentItems {
-            let quantity = 100 * 10
-            let amount = NSDecimalNumber(string: item["amount"]!, )
-            print("AMOUNT: \(amount)")
-            let summaryItem = PKPaymentSummaryItem(label: item["label"]!, amount: 100.00 )
+            let summaryItem = PKPaymentSummaryItem(label: item["label"]!, amount: NSDecimalNumber(string: item["amount"]!, ) )
             summaryItems.append(summaryItem)
         }
         

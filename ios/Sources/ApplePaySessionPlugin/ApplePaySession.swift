@@ -14,12 +14,8 @@ import PassKit
         self.delegate = delegate
         self.paymentWasAuthorized = false
         
-        // TODO: Assign backendUrl and authToken here from the request
-        // self.backendUrl = URL(string: "your_backend_url_from_request")
-        // self.authToken = "your_auth_token_from_request"
-        
         guard PKPaymentAuthorizationController.canMakePayments() else {
-            delegate.applePayDidFail(message: "Apple Pay is not available on this device", code: "applepay_not_available")
+            delegate.applePayDidFail(message: "Apple Pay is not available on this device", code: ApplePayCode.APPLEPAY_NOT_AVAILABLE)
             return
         }
         
@@ -54,7 +50,6 @@ import PassKit
     }
     
     private func requestPayment(session: String, completion: @escaping (ApplePayPaymentResponse) -> Void){
-        print("[ApplePay Session] Requesting payment...")
         let sessionRequest = ApplePaySessionRequest()
         let url = URL(string:self.paymentInfo!.url)
         var body = self.paymentInfo!.body
@@ -82,7 +77,7 @@ extension ApplePaySession:PKPaymentAuthorizationControllerDelegate{
    public func paymentAuthorizationControllerDidFinish(_ controller: PKPaymentAuthorizationController) {
        controller.dismiss(completion: nil)
        if !paymentWasAuthorized {
-           delegate?.applePayDidFail(message: "The user canceled the payment.", code: "payment_canceled")
+           delegate?.applePayDidFail(message: "The user canceled the payment.", code: ApplePayCode.PAYMENT_CANCELED)
        }else{
            delegate?.applePayDidFinish(message: nil, code: nil)
        }
@@ -95,7 +90,7 @@ extension ApplePaySession:PKPaymentAuthorizationControllerDelegate{
        paymentWasAuthorized = true
        let paymentToken = payment.token.paymentData.base64EncodedString()
       if(paymentToken.isEmpty){
-           self.delegate?.applePayDidFail(message: "Was not able to obtain a payment token.", code: "payment_failed")
+          self.delegate?.applePayDidFail(message: "Was not able to obtain a payment session.", code: ApplePayCode.PAYMENT_FAILED)
            completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
            return
        }
