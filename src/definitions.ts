@@ -76,25 +76,32 @@ export interface ApplePayPayment<Body> extends ApplePayRequest {
 }
 
 export type ApplePayCode =
-  | 'payment_authorized'
-  | 'payment_reject'
-  | 'payment_canceled'
-  | 'payment_failed'
-  | 'applepay_error'
-  | 'applepay_not_available'
-  | 'missing_merchant_id'
-  | 'missing_amount'
-  | 'invalid_amount'
-  | 'invalid_country_code'
-  | 'invalid_currency_code'
-  | 'empty_supported_networks'
-  | 'empty_items'
-  | 'no_valid_networks'
-  | 'problem_opening_paymentsheet'
-  | 'missing_url'
-  | 'missing_body'
-  | 'missing_session_in'
-  | 'uknown_error';
+| 'missing_merchant_id'
+| 'missing_amount'
+| 'missing_url'
+| 'missing_body'
+| 'missing_session_in'
+
+| 'invalid_amount'
+| 'invalid_country_code'
+| 'invalid_currency_code'
+| 'invalid_networks'
+
+| 'empty_supported_networks'
+| 'empty_items'
+
+| 'payment_authorized'
+| 'payment_reject'
+| 'payment_canceled'
+| 'payment_failed'
+
+| 'applepay_not_available'
+| 'problem_opening_paymentsheet'
+| 'applepay_error'
+
+| 'uknown_error'
+
+  ;
 
 /**
  * Represents a session for Apple Pay transactions.
@@ -123,6 +130,14 @@ export interface ApplePayError {
   message: string;
   code: ApplePayCode;
 }
+
+export interface ApplePayServerErrorData {
+  statusCode: number;
+  headers?: Record<string, string>;
+  error: any;
+  timestamp: string;
+}
+
 
 export interface ApplePaySessionPlugin {
   /**
