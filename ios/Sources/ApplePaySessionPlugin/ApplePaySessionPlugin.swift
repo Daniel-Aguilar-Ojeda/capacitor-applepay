@@ -12,6 +12,7 @@ public class ApplePaySessionPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "ApplePaySession"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "getSession", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "completeSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initiatePayment", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = ApplePaySession()
@@ -57,6 +58,14 @@ public class ApplePaySessionPlugin: CAPPlugin, CAPBridgedPlugin {
                call.reject("An error ocurred while validating parameters", ApplePayCode.UKNOWN_ERROR, nil)
                currentCall = nil
            }
+    }
+
+    @objc func completeSession(_ call: CAPPluginCall){
+        let status = call.getString("status")!
+        
+        print("Status: \(status)")
+        
+        call.resolve(["status": status])
     }
 }
 

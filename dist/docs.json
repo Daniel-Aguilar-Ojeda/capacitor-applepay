@@ -78,6 +78,22 @@
           "Body"
         ],
         "slug": "initiatepayment"
+      },
+      {
+        "name": "completeSession",
+        "signature": "(status: \"success\" | \"error\") => Promise<void>",
+        "parameters": [
+          {
+            "name": "status",
+            "docs": "",
+            "type": "'error' | 'success'"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "completesession"
       }
     ],
     "properties": []

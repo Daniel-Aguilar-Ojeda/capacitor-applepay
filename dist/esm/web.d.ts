@@ -3,4 +3,5 @@ import type { ApplePayPayment, ApplePayPaymentResponse, ApplePayRequest, ApplePa
 export declare class ApplePaySessionWeb extends WebPlugin implements ApplePaySessionPlugin {
     getSession(request: ApplePayRequest): Promise<AppleyPayToken>;
     initiatePayment<Body, Response>(paymentRequest: ApplePayPayment<Body>): Promise<ApplePayPaymentResponse<Response>>;
+    completeSession(status: 'success' | 'error'): Promise<void>;
 }

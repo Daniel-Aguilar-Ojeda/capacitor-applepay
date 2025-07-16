@@ -114,4 +114,5 @@ export interface ApplePaySessionPlugin {
      * @throws A promise that reject with an `ApplePayError` message.
      */
     initiatePayment<Body, Response>(paymentRequest: ApplePayPayment<Body>): Promise<ApplePayPaymentResponse<Response>>;
+    completeSession(status: "success" | "error"): Promise<void>;
 }

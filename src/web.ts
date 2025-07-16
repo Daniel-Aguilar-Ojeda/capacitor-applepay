@@ -16,7 +16,7 @@ class AppleyPayError extends Error {
 
 export class ApplePaySessionWeb extends WebPlugin implements ApplePaySessionPlugin {
 
-  async getSession(request: ApplePayRequest): Promise<AppleyPayToken>{
+  getSession(request: ApplePayRequest): Promise<AppleyPayToken>{
     console.log({request});
     throw new AppleyPayError("Apple Pay is not available on WEB", "applepay_not_available");
   }
@@ -24,5 +24,10 @@ export class ApplePaySessionWeb extends WebPlugin implements ApplePaySessionPlug
   initiatePayment<Body, Response>(paymentRequest: ApplePayPayment<Body>): Promise<ApplePayPaymentResponse<Response>> {
     console.log({paymentRequest});
     throw new AppleyPayError("Appl Pay is not available on WEB", "applepay_not_available");
+  }
+
+  completeSession(status: 'success' | 'error'): Promise<void> {
+    console.log({status});
+    throw new AppleyPayError("Apple Pay is not available on WEB", "applepay_not_available");
   }
 }

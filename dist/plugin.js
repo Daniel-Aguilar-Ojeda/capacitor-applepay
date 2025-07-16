@@ -13,13 +13,17 @@ var capacitorApplePaySession = (function (exports, core) {
         }
     }
     class ApplePaySessionWeb extends core.WebPlugin {
-        async getSession(request) {
+        getSession(request) {
             console.log({ request });
             throw new AppleyPayError("Apple Pay is not available on WEB", "applepay_not_available");
         }
         initiatePayment(paymentRequest) {
             console.log({ paymentRequest });
             throw new AppleyPayError("Appl Pay is not available on WEB", "applepay_not_available");
+        }
+        completeSession(status) {
+            console.log({ status });
+            throw new AppleyPayError("Apple Pay is not available on WEB", "applepay_not_available");
         }
     }
 

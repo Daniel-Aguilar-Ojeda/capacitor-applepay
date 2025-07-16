@@ -15,6 +15,7 @@ npx cap sync
 
 * [`getSession(...)`](#getsession)
 * [`initiatePayment(...)`](#initiatepayment)
+* [`completeSession(...)`](#completesession)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -49,6 +50,19 @@ initiatePayment<Body, Response>(paymentRequest: ApplePayPayment<Body>) => Promis
 | **`paymentRequest`** | <code><a href="#applepaypayment">ApplePayPayment</a>&lt;Body&gt;</code> |
 
 **Returns:** <code>Promise&lt;<a href="#applepaypaymentresponse">ApplePayPaymentResponse</a>&lt;Response&gt;&gt;</code>
+
+--------------------
+
+
+### completeSession(...)
+
+```typescript
+completeSession(status: "success" | "error") => Promise<void>
+```
+
+| Param        | Type                              |
+| ------------ | --------------------------------- |
+| **`status`** | <code>'error' \| 'success'</code> |
 
 --------------------
 
